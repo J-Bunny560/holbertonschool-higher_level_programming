@@ -2,4 +2,4 @@
 import sys
 
 number = 98
-print(number, "Battery street\n")
+print(f"{number} Battery street\n")

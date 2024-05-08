@@ -5,9 +5,9 @@ number = random.randint(-10000, 10000)
 def last_digit_description(number):
     last_digit = abs(number) % 10
     if number < 0:
-        print(f"The Last digit of {number} is -{last_digit}", end=" ")
+        print(f"Last digit of {number} is -{last_digit}", end=" ")
     else:
-        print(f"The Last digit of {number} is {last_digit}", end=" ")
+        print(f"Last digit of {number} is {last_digit}", end=" ")
 
     if number > 0:
         if last_digit > 5:

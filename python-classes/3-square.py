@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""creates class Square with
-private instance attribute size and public instance method"""
+"""creates class Square with private instance attribute size and
+public instance method"""
 
 
 class Square:
@@ -16,4 +16,5 @@ class Square:
 
     def area(self):
         """calculates and returns current square area"""
+
         return(self.__size * self.__size)

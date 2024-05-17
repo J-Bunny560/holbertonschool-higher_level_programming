@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """Module to define a Square class with size attribute and area calculation.
 
-This module provides a Square class that allows creating a square with a specific
+This module provides a Square class that allows
+creating a square with a specific
 size, calculating its area, and printing the square using the '#' character.
 The size attribute is validated to ensure it is a non-negative integer.
 """
+
 
 class Square:
     """Represents a square with a size.
@@ -17,7 +19,8 @@ class Square:
         """Initializes a Square instance with a given size.
 
         Args:
-            size (int): The size of one side of the square, must be a non-negative integer.
+            size (int): The size of one side of the square,
+        must be a non-negative integer.
         """
         self.size = size
 
@@ -35,7 +38,8 @@ class Square:
         """Sets the size of the square.
 
         Args:
-            value (int): The size of one side of the square, must be a non-negative integer.
+            value (int): The size of one side of the square,
+        must be a non-negative integer.
 
         Raises:
             TypeError: If value is not an integer.
@@ -58,8 +62,8 @@ class Square:
     def my_print(self):
         """Prints the square using the '#' character.
 
-        Prints a square of size self.__size using the '#' character. If the size
-        is 0, it prints an empty line.
+        Prints a square of size self.__size using the '#' character.
+        If the size is 0, it prints an empty line.
         """
         if self.__size > 0:
             for column in range(self.__size):

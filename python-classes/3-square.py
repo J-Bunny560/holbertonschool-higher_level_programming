@@ -1,16 +1,13 @@
 #!/usr/bin/python3
+"""creates class Square with
+private instance attribute size and public instance method"""
+
+
 class Square:
-    """square"""
+    """defines class with instantiated and validated private instance attribute
+and public instance method."""
+
     def __init__(self, size=0):
-        """
-        initialize square size
-
-        Args:
-        size (int): size of square
-
-        Returns: None
-        """
-
         if type(size) is not int:
             raise TypeError("size must be an integer")
         elif size < 0:
@@ -18,11 +15,5 @@ class Square:
         self.__size = size
 
     def area(self):
-        """
-        calculate area of square
-
-        Args: None
-
-        Returns: area of square
-        """
-        return self.__size * self.__size
+        """calculates and returns current square area"""
+        return(self.__size * self.__size)

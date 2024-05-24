@@ -8,7 +8,7 @@ class Circle:
 
     def __init__(self, radius):
         self.radius = radius
-        if radius <= -1:
+        if self.radius < 0:
             raise ValueError("Radius cannot be negative")
 
     def area(self):

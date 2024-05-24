@@ -1,41 +1,55 @@
 #!/usr/bin/python3
 from abc import ABC, abstractmethod
-from math import pi
 
-#  Shape Abstract class
+
 class Shape(ABC):
     @abstractmethod
     def area(self):
         pass
 
+
     @abstractmethod
     def perimeter(self):
         pass
 
-#  Circle and rectangle classes
+
 class Circle(Shape):
+
     def __init__(self, radius):
-        if radius < 0:
-            raise ValueError('"Radius cannot be negative"')
         self.radius = radius
 
+        if radius < 0:
+            raise ValueError("Radius cannot be negative")
+
+
     def area(self):
-        return math.pi * (self.radius ** 2)
+        return 3.14 * self.radius ** 2
+
 
     def perimeter(self):
-        return 2 * math.pi * self.radius
+        return 2 * 3.14 * self.radius
 
-    class Rectangle(Shape):
-        def __init__(self, width, height):
-            self.width = width
-            self.height = height
 
-        def area(self):
-            return self.width * self.height
+class Rectangle(Shape):
 
-        def perimeter(self):
-            return 2 * (self.width + self.height)
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
 
-        def shape_info(shape):
-            print(f"area: {shape.area()}")
-            print(f"Perimeter: {shape.perimeter()}")
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+
+def shape_info(shape):
+    try:
+        area = shape.area()
+        perimeter = shape.perimeter()
+        print(f"Area: {area}")
+        print(f"Perimeter: {perimeter}")
+
+    except AttributeError:
+        print("The provided object does not have area and perimeter methods.")

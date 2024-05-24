@@ -1,40 +1,41 @@
 #!/usr/bin/python3
-import abc
+from abc import ABC, abstractmethod
 from math import pi
 
+#  Shape Abstract class
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
 
-#  Circle and Rectangle Classes
-class Circle:
+    @abstractmethod
+    def perimeter(self):
+        pass
 
+#  Circle and rectangle classes
+class Circle(Shape):
     def __init__(self, radius):
         if radius < 0:
             raise ValueError('"Radius cannot be negative"')
         self.radius = radius
 
     def area(self):
-        return pi * (self.radius ** 2)
-
-
-    def perimeter(self):
-        return 2 * pi * self.radius
-
-
-class Rectangle:
-
-    def __init__(self, width, height):
-
-        self.width = width
-        self.height = height
-
-    def area(self):
-        return (self.width * self.height)
+        return math.pi * (self.radius ** 2)
 
     def perimeter(self):
-        return 2 * (self.width + self.height)
+        return 2 * math.pi * self.radius
 
+    class Rectangle(Shape):
+        def __init__(self, width, height):
+            self.width = width
+            self.height = height
 
-#  shape_info Function
-def shape_info(shape):
+        def area(self):
+            return self.width * self.height
 
-    print(f"Area: {shape.area()}")
-    print(f"Perimeter: {shape.perimeter()}")
+        def perimeter(self):
+            return 2 * (self.width + self.height)
+
+        def shape_info(shape):
+            print(f"area: {shape.area()}")
+            print(f"Perimeter: {shape.perimeter()}")

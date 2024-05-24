@@ -19,8 +19,8 @@ def test_counted_iterator():
 
     for i in range(3):
         next(counted_iter)
-        assert counted_iter.get_count() == 3, "Count should match the number of items"
 
+    assert counted_iter.get_count() == 3, "Count should match the number of items"
     iterator = iter(counted_iter)
 
     while True:

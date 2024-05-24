@@ -14,11 +14,26 @@ class CountedIterator:
         except StopIteration:
             raise
 
-# Testing
-if __name__ == "__main__":
+def test_counted_iterator():
     counted_iter = CountedIterator([1, 2, 3, 4, 5])
 
-    for _ in range(3):
-        print(next(counted_iter))
+    for i in range(3):
+        next(counted_iter)
+        assert counted_iter.get_count() == 3, "Count should match the number of items"
 
-    print("Number of items fetched:", counted_iter.get_count())
+    iterator = iter(counted_iter)
+
+    while True:
+        try:
+            next(iterator)  # This should raise StopIteration
+
+        except StopIteration:
+
+            break
+
+        assert counted_iter.get_count() == 5, "Count should match the number of items"
+
+
+#  Testing
+if __name__ == "__main__":
+    test_counted_iterator()

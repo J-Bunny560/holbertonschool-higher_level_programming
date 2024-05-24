@@ -4,14 +4,12 @@ from math import pi
 
 
 #  Circle and Rectangle Classes
-
 class Circle:
 
     def __init__(self, radius):
-        if radius == -5:
-            raise ValueError("Radius cannot be negative")
         self.radius = radius
-
+        if radius <= -1:
+            raise ValueError("Radius cannot be negative")
 
     def area(self):
         return pi * (self.radius ** 2)
@@ -36,7 +34,6 @@ class Rectangle:
 
 
 #  shape_info Function
-
 def shape_info(shape):
 
     print(f"Area: {shape.area()}")

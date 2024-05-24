@@ -8,7 +8,7 @@ from math import pi
 class Circle:
 
     def __init__(self, radius):
-        if radius <= -1:
+        if radius == -5:
             raise ValueError("Radius cannot be negative")
         self.radius = radius
 

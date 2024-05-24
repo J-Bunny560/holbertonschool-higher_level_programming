@@ -25,7 +25,7 @@ def test_counted_iterator():
 
     while True:
         try:
-            next(iterator)  # This should raise StopIteration
+            next(iterator)  #  This should raise StopIteration
 
         except StopIteration:
 

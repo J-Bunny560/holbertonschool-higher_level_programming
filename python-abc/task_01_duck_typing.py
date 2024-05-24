@@ -7,9 +7,9 @@ from math import pi
 class Circle:
 
     def __init__(self, radius):
+        if radius < 0:
+            raise ValueError("Radius Cannot be negative")
         self.radius = radius
-        if self.radius < 0:
-            raise ValueError("Radius cannot be negative")
 
     def area(self):
         return pi * (self.radius ** 2)

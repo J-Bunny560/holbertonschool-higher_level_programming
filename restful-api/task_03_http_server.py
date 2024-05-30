@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import http.server
+import socketserver
 import json
 
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self.send_response(200)
@@ -13,25 +14,31 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            data = {"name": "John", "age": 30, "city": "New York"}
-            self.wfile.write(json.dumps(data).encode('utf-8'))
+            response = {
+                "name": "John",
+                "age": 30,
+                "city": "New York"
+            }
+            self.wfile.write(json.dumps(response).encode('utf-8'))
         elif self.path == '/status':
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(b"OK")
-        else:
-            self.send_response(404)
+        elif self.path == '/info':
+            self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            error_message = {"error": "Endpoint not found"}
-            self.wfile.write(json.dumps(error_message).encode('utf-8'))
+            response = {
+                "version": "1.0",
+                "description": "A simple API built with http.server"
+            }
+            self.wfile.write(json.dumps(response).encode('utf-8'))
+        else:
+            self.send_error(404, "Endpoint not found")
 
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
-    server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
-    print(f'Starting httpd server on port {port}')
+PORT = 8000
+
+with socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
+    print(f"Serving on port {PORT}")
     httpd.serve_forever()
-
-if __name__ == '__main__':
-    run()

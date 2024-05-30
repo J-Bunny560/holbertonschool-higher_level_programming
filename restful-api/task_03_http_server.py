@@ -39,7 +39,6 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(b"Endpoint not found")
-            print("Returned 404 with content: Endpoint not found")  # Log for debugging
 
 PORT = 8000
 

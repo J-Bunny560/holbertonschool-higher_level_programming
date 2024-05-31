@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-#!/usr/bin/python3
 from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
 
 # Define the users dictionary at the top level
-users = {"jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"}, "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}}  # Initialize as an empty dictionary
+users = {"jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
+         "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}}
 
 @app.route("/")
 def home():
@@ -32,7 +32,6 @@ def get_user(username):
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
-    """Add a new user."""
     if request.method == 'POST':
         data = request.get_json()
         if 'username' not in data:
@@ -40,7 +39,7 @@ def add_user():
         username = data["username"]
         if username in users:
             return jsonify({"error": f"User {username} already exists"}), 409
-        users[username] = data
+        users[username] = data  # Add the new user to the users dictionary
         return jsonify({"message": f"User {username} added successfully", "user_data": users[username]}), 201
     else:
         return jsonify({"error": "Invalid request method"}), 405

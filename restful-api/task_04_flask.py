@@ -1,45 +1,55 @@
 #!/usr/bin/python3
-from flask import Flask, jsonify
+#!/usr/bin/python3
+from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
 
-# Define a route for the root URL (“/”) and create a function to handle this route
+# Define the users dictionary at the top level
+users = {"jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"}, "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}}  # Initialize as an empty dictionary
+
 @app.route("/")
 def home():
+    """Home page."""
     return "Welcome to the Flask API!"
 
-# Define a route for the /data URL and create a function to handle this route
 @app.route("/data")
 def data():
-    users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}, "john": {"name": "John", "age": 32, "city": "New York"}}
+    """Return user data."""
     user_list = [{"username": user, "user_data": users[user]} for user in users]
     return jsonify(user_list)
 
-# Define a route for the /status URL and create a function to handle this route
 @app.route("/status")
 def status():
+    """Return the API status."""
     return "OK"
 
-# Define a route for the /users/<username> URL and create a function to handle this route
 @app.route("/users/<username>")
 def get_user(username):
-    users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}, "john": {"name": "John", "age": 32, "city": "New York"}}
-    if username in users:
-        return jsonify(users[username])
-    else:
-        return jsonify({"error": "User not found"})
-
-    # Define a route for the /add_user URL and create a function to handle this route
+    """Return user data for a given username."""
+    if username not in users:
+        abort(404, description="User not found")
+    return jsonify(users[username])
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
-    users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}, "john": {"name": "John", "age": 32, "city": "New York"}}
-    data = request.get_json()
-    username = data["username"]
-    users[username] = data
-    return jsonify({"message": f"User {username} added successfully", "user_data": users[username]})
+    """Add a new user."""
+    if request.method == 'POST':
+        data = request.get_json()
+        if 'username' not in data:
+            return jsonify({"error": "Username not provided"}), 400
+        username = data["username"]
+        if username in users:
+            return jsonify({"error": f"User {username} already exists"}), 409
+        users[username] = data
+        return jsonify({"message": f"User {username} added successfully", "user_data": users[username]}), 201
+    else:
+        return jsonify({"error": "Invalid request method"}), 405
 
+@app.route("/users")
+def get_all_users():
+    """Return all user data."""
+    user_list = [{"username": user, "user_data": users[user]} for user in users]
+    return jsonify(user_list)
 
-# Run the Flask development server
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

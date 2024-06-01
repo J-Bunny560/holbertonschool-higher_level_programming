@@ -40,7 +40,6 @@ def add_user():
         if username in users:
             return jsonify({"error": f"User {username} already exists"}), 409
         # **Important fix:** Add the 'username' to the data before adding to users
-        data["username"] = username
         users[username] = data  # Add the new user to the users dictionary
         return jsonify({"message": f"User {username} added successfully", "user_data": users[username]}), 201
     else:

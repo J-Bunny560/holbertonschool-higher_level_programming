@@ -10,9 +10,10 @@ def home():
     """Home page."""
     return "Welcome to the Flask API!"
 
-@app.route("/data")
-def data():
-    """Return a list of all usernames and their info."""
+@app.route('/data')
+def get_data():
+    if not users:
+        return jsonify({"error": "No users found"}), 404
     return jsonify(users)
 
 @app.route("/users")

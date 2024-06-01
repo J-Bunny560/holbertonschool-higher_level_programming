@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, abort
 from flask_httpauth import HTTPBasicAuth
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_raw_jwt
+from werkzeug.security import generate_password_hash, check_password_hash
 import base64
 
 app = Flask(__name__)

@@ -4,11 +4,11 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, ge
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config["JWT_SECRET_KEY"] = "super-secret"  
+app.config["JWT_SECRET_KEY"] = "super-secret"  # This should be a more secure secret in production
 auth = HTTPBasicAuth()
 jwt = JWTManager(app)
 
-# Store users in a more secure way (e.g., a database)
+# In a real application, users would be stored in a database
 users = {
     "jane": {"password": generate_password_hash("password123"), "role": "admin"},
     "john": {"password": generate_password_hash("password456"), "role": "user"}
@@ -25,9 +25,10 @@ def verify_password(username, password):
 def login():
     auth.authenticate()
     user = auth.current_user
-    
+
     # Create a JWT token
-    access_token = create_access_token(identity=user['username'])
+    access_token = create_access_token(identity=user['username'], fresh=True) 
+    # Fresh tokens can be revoked
     return jsonify({'token': access_token}), 200
 
 # Protected route accessible with JWT token
@@ -36,3 +37,6 @@ def login():
 def protected():
     current_user = get_jwt_identity()
     return jsonify(f'Hello, {current_user}!'), 200
+
+if __name__ == '__main__':
+    app.run(debug=True) 

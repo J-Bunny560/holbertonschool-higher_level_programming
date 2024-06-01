@@ -13,7 +13,9 @@ def home():
 @app.route('/data')
 def get_data():
     """Return all user data."""
-    return jsonify(users)  # Directly return the 'users' dictionary
+    if not users:
+        abort(404, description="No users found")
+    return jsonify(users)
 
 @app.route("/users")
 def list_users():

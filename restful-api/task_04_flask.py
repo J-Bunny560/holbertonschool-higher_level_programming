@@ -43,6 +43,7 @@ def add_user():
     if not data:
         abort(400, description="Invalid JSON data")
 
+    # Check for required fields
     if 'username' not in data:
         abort(400, description="Username not provided")
     username = data["username"]
@@ -50,6 +51,7 @@ def add_user():
     if username in users:
         abort(409, description=f"User {username} already exists")
 
+    # Add user to the dictionary
     users[username] = {
         "username": username,
         "name": data.get("name", ""),

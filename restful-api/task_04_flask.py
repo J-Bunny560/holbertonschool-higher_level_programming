@@ -20,7 +20,7 @@ def get_data():
 def list_users():
     """Return a list of all usernames."""
     user_list = list(users.keys())
-    return jsonify(user_list)
+    return jsonify(list(users.keys()))
 
 @app.route("/status")
 def status():

@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, abort
 from flask_httpauth import HTTPBasicAuth
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_raw_jwt
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 import base64
 
@@ -53,8 +53,8 @@ def jwt_protected():
 @jwt_required()
 def admin_only():
     # Get the user's role from the JWT token
-    jwt_payload = get_raw_jwt()
-    role = jwt_payload['role']
+    jwt_data = get_jwt()  # Get the entire JWT payload
+    role = jwt_data['role']
 
     if role == "admin":
         return jsonify("Admin Access: Granted"), 200

@@ -3,10 +3,7 @@ from flask import Flask, jsonify, request, abort
 app = Flask(__name__)
 
 # Define the users dictionary at the top level
-users = {
-    "jane": {"username": "jane", "name": "Jane", "age": 28, "city": "Los Angeles"},
-    "john": {"username": "john", "name": "John", "age": 30, "city": "New York"}
-}
+users = {}
 
 @app.route("/")
 def home():

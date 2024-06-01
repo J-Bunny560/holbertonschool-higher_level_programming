@@ -12,10 +12,11 @@ def home():
 
 @app.route('/data')
 def get_data():
-    """Return all user data."""
+    """Return a list of all usernames."""
     if not users:
         abort(404, description="No users found")
-    return jsonify(users)
+        return jsonify(list(users.keys()))
+
 
 @app.route("/users")
 def list_users():

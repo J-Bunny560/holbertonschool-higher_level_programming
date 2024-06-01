@@ -38,10 +38,12 @@ def add_user():
     if not request.is_json:
         abort(400, description="Request must be JSON")
 
-    # Get the JSON data and set a default value if None
-    data = request.get_json() or {}  # Default to an empty dictionary
+    # Get the JSON data and handle cases where it's invalid
+    data = request.get_json()
+    if not data:
+        abort(400, description="Invalid JSON data")
 
-    if not data or 'username' not in data:
+    if 'username' not in data:
         abort(400, description="Username not provided")
     username = data["username"]
 

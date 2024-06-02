@@ -39,6 +39,8 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             response = self.handle_root()
         elif self.path == "/data":
             response = self.handle_data()
+        elif self.path == "/status":
+            response = self.handle_status()
         elif self.path == "/info":
             response = self.handle_info()
         else:
@@ -52,6 +54,10 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
     def handle_data(self):
         response = {"data": {"name": "John", "age": 30, "city": "New York"}}
+        return response
+
+    def handle_status(self):
+        response = {"status": "OK"}
         return response
 
     def handle_info(self):

@@ -13,7 +13,7 @@ def home():
 @app.route('/data')
 def get_data():
     """Return a list of all usernames."""
-    return jsonify(list(users.keys()))  # Return an empty list if no users
+    return jsonify(list(users.keys()))
 
 @app.route("/users")
 def list_users():
@@ -36,29 +36,18 @@ def get_user(username):
 def add_user():
     """Add a new user."""
     if not request.is_json:
-        abort(400, description="Request must be JSON")
+        return jsonify({"error": "Invalid request"}), 400
 
-    # Get the JSON data and handle cases where it's invalid
-    data = request.get_json()
-    if not data:
-        abort(400, description="Invalid JSON data")
+    data = request.json
+    if "username" not in data:
+        return jsonify({"error": "Username is required"}), 400
 
-    # Check for required fields
-    if 'username' not in data:
-        abort(400, description="Username not provided")
     username = data["username"]
-
     if username in users:
-        abort(409, description=f"User {username} already exists")
+        return jsonify({"error": "User already exists"}), 400
 
-    # Add user to the dictionary
-    users[username] = {
-        "username": username,
-        "name": data.get("name", ""),
-        "age": data.get("age", 0),
-        "city": data.get("city", "")
-    }
-    return jsonify({"message": "User added", "user": users[username]}), 201
+    users[username] = data
+    return jsonify({"message": "User added", "user": data}), 201
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     """
-    Home route that returns a welcome message.
+    Home route that returns a welcome.
     """
     return "Welcome to the Flask API!"
 
@@ -15,7 +15,7 @@ users = {}
 @app.route("/data")
 def data():
     """
-    Data route that returns all users.
+    Data route that returns users.
     """
     return jsonify(list(users.keys()))
 
@@ -42,14 +42,14 @@ def user(username):
 def add_user():
     """
     Add User route that accepts POST requests to add a new user.
-    The new user's data is expected to be provided in the request body as JSON.
+    The new user's data is JSON.
     """
     new_user = request.json
     username = new_user.get("username")
     if not username:
         return jsonify({"error": "Username is required"}), 400
 
-    if username in users:
+    if username == users:
         return jsonify({"error": "User already exists"}), 400
 
     users[username] = new_user

@@ -29,9 +29,14 @@ def handle_root(self):
 
 def handle_data(self):
     try:
-        # Fetch data from a source (e.g., database or file)
-        with open('data.json', 'r') as f:
-            data = json.load(f)
+        # Sample data instead of reading from a file
+        data = {
+            "message": "This is sample data from the API",
+            "items": [
+                {"name": "Item 1"},
+                {"name": "Item 2"}
+            ]
+        }
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()

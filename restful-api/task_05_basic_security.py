@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request, abort
 from flask_httpauth import HTTPBasicAuth
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, get_jwt
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-import base64
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Replace with a more secure secret

@@ -4,62 +4,32 @@ import socketserver
 import json
 import logging
 
-# Set up logging
-logging.basicConfig(filename='api.log', level=logging.INFO)
-
-# Define error messages for undefined endpoints
 undefined_endpoints_errors = {
-    "/undefined_endpoint_1": {"error": "Endpoint 1 not found"},
-    "/undefined_endpoint_2": {"error": "Endpoint 2 not found"},
-    # Add more undefined endpoints as needed
-    "/undefined": {"error": "Endpoint not found"}  # Handle the "undefined" endpoint
+    "/invalid_endpoint": {"error": "Endpoint not found"},
 }
 
+logging.basicConfig(level=logging.INFO)
+
 def handle_root(self):
-    try:
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b"Hello, this is a simple API!")
-    except Exception as e:
-        logging.error(f"Error handling root endpoint: {str(e)}")
-        self.send_response(500)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+    response = {"message": "Hello, world!"}
+    self.send_response(200)
+    self.send_header('Content-type', 'application/json')
+    self.end_headers()
+    self.wfile.write(json.dumps(response).encode('utf-8'))
 
 def handle_data(self):
-    try:
-        data = {
-            "message": "This is data from the data endpoint",
-            "items": [
-                {"id": 1, "name": "Item A"},
-                {"id": 2, "name": "Item B"}
-            ]
-        }
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps(data).encode('utf-8'))
-    except Exception as e:
-        logging.error(f"Error handling data endpoint: {str(e)}")
-        self.send_response(500)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+    response = {"data": "This is some data"}
+    self.send_response(200)
+    self.send_header('Content-type', 'application/json')
+    self.end_headers()
+    self.wfile.write(json.dumps(response).encode('utf-8'))
 
 def handle_status(self):
-    try:
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
-        self.wfile.write(b"OK")
-    except Exception as e:
-        logging.error(f"Error handling status endpoint: {str(e)}")
-        self.send_response(500)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+    response = {"status": "The server is running"}
+    self.send_response(200)
+    self.send_header('Content-type', 'application/json')
+    self.end_headers()
+    self.wfile.write(json.dumps(response).encode('utf-8'))
 
 def handle_info(self):
     try:
@@ -117,4 +87,4 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 PORT = 8000
 
 # Use threading to avoid blocking the main thread
-with socketserver.ThreadingTCPServer(("", PORT
+with socketserver.Threading

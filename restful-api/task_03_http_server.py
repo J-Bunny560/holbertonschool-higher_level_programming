@@ -30,12 +30,11 @@ def handle_root(self):
 
 def handle_data(self):
     try:
-        # The test expects specific data, so provide it here
         data = {
             "message": "This is data from the data endpoint",
             "items": [
-                {"name": "Item A"},
-                {"name": "Item B"}
+                {"id": 1, "name": "Item A"},
+                {"id": 2, "name": "Item B"}
             ]
         }
         self.send_response(200)
@@ -118,6 +117,4 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 PORT = 8000
 
 # Use threading to avoid blocking the main thread
-with socketserver.ThreadingTCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
-    print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+with socketserver.ThreadingTCPServer(("", PORT

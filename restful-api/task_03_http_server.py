@@ -4,45 +4,28 @@ import socketserver
 import json
 import logging
 
-undefined_endpoints_errors = {
-    "/invalid_endpoint": {"error": "Endpoint not found"},
-}
-
 logging.basicConfig(level=logging.INFO)
 
-class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
-        logging.info(f"GET request: {self.path}")
+class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
-        if self.path == '/':
-            self.handle_root()
-        elif self.path == '/data':
-            self.handle_data()
-        elif self.path == '/status':
-            self.handle_status()
-        elif self.path == '/info':
-            self.handle_info()
-        else:
-            if self.path in undefined_endpoints_errors:
-                error_message = undefined_endpoints_errors[self.path]
-            else:
-                error_message = {"error": "Endpoint not found"}
-            self.send_response(404)  # Ensure 404 for undefined endpoints
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps(error_message).encode('utf-8'))
+    def do_GET(self):
+        logging.info(f"GET request, Path: {self.path}")
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        response = self.handle_request()
+        self.wfile.write(json.dumps(response).encode('utf-8'))
 
     def do_POST(self):
-        logging.info(f"POST request: {self.path}")
-        content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
         try:
-            data = json.loads(post_data.decode('utf-8'))
-            # ... logic to store or use the data
-            self.send_response(201)  # Created
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            logging.info(f"POST request, Path: {self.path}, Data: {post_data}")
+            self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps({"message": "Data received"}).encode('utf-8'))
+            response = self.handle_request({"data": post_data})
+            self.wfile.write(json.dumps(response).encode('utf-8'))
         except Exception as e:
             logging.error(f"Error handling POST request: {str(e)}")
             self.send_response(400)  # Bad Request
@@ -50,40 +33,30 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
 
+    def handle_request(self, data=None):
+        response = None
+        if self.path == "/":
+            response = self.handle_root()
+        elif self.path == "/data":
+            response = self.handle_data()
+        elif self.path == "/info":
+            response = self.handle_info()
+        else:
+            response = {"error": "Endpoint not found"}
+            self.send_response(404)
+        return response
+
     def handle_root(self):
-        response = {"message": "Hello, world!"}
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps(response).encode('utf-8'))
+        response = {"message": "Hello, this is a simple API!"}
+        return response
 
     def handle_data(self):
-        response = {"data": "This is some data"}
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps(response).encode('utf-8'))
-
-    def handle_status(self):
-        response = {"status": "The server is running"}
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        self.wfile.write(json.dumps(response).encode('utf-8'))
+        response = {"data": {"name": "John", "age": 30, "city": "New York"}}
+        return response
 
     def handle_info(self):
-        try:
-            response = {"version": "1.0", "description": "A simple API built with http.server"}
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps(response).encode('utf-8'))
-        except Exception as e:
-            logging.error(f"Error handling info endpoint: {str(e)}")
-            self.send_response(500)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+        response = {"version": "1.0", "description": "A simple API built with http.server"}
+        return response
 
 
 PORT = 8000

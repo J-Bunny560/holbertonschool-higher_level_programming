@@ -29,7 +29,6 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
             info = {"version": "1.0", "description": "A simple API built with http.server"}
             self.wfile.write(bytes(json.dumps(info), "utf-8"))
         else:
-            # Send 404 Not Found response for any other path
             self.send_error(404, "File Not Found: %s" % self.path)
 
 def run(server_class=http.server.HTTPServer, handler_class=SimpleAPIHandler):
@@ -101,4 +100,4 @@ def add_user():
     return jsonify({"message": "User added", "user": new_user}), 201
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8000)  # Run the Flask API on port 8000

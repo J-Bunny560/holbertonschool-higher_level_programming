@@ -87,4 +87,6 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
 PORT = 8000
 
 # Use threading to avoid blocking the main thread
-with socketserver.Threading
+with socketserver.ThreadingTCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
+    logging.info(f"Serving at port {PORT}")
+    httpd.serve_forever()

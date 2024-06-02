@@ -26,7 +26,7 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(404)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
-            self.wfile.write(bytes(f"Endpoint '{self.path}' not found.", 'utf-8'))  # Corrected error message
+            self.wfile.write(b"Endpoint not found. Please check the URL and try again.")
 
 def run_server():
     server_address = ('', PORT)

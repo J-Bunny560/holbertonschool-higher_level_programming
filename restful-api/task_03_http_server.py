@@ -36,9 +36,9 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(response).encode('utf-8'))
         else:  # Handle all other paths as undefined
             self.send_response(404)
-            self.send_header('Content-type', 'application/json')  # Set to application/json for 404
+            self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps({"error": "Endpoint not found"}).encode('utf-8'))  # Send JSON error
+            self.wfile.write(json.dumps({"error": "Endpoint not found"}).encode('utf-8'))
 
 PORT = 8000
 

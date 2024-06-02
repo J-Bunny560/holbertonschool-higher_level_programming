@@ -34,7 +34,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
                 "description": "A simple API built with http.server"
             }
             self.wfile.write(json.dumps(response).encode('utf-8'))
-        else:
+        else:  # Handle all other paths as undefined
             self.send_response(404)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()

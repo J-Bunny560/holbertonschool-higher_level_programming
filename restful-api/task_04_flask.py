@@ -1,40 +1,37 @@
-#!/usr/bin/python3
-import http.server
-import json
+from flask import Flask, jsonify, request
 
-PORT = 8000
+app = Flask(__name__)
 
-class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/':
-            self.send_response(200)
-            self.send_header("Content-type", "text/plain")
-            self.end_headers()
-            self.wfile.write(bytes('Welcome to the Simple API!', "utf-8"))
-        elif self.path == '/data':
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            data = {"name": "John", "age": 30, "city": "New York"}
-            self.wfile.write(bytes(json.dumps(data), "utf-8"))
-        elif self.path == '/status':
-            self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(bytes('OK', "utf-8"))
-        elif self.path == '/info':
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            info = {"version": "1.0", "description": "A simple API built with http.server"}
-            self.wfile.write(bytes(json.dumps(info), "utf-8"))
-        else:
-            self.send_error(404, "File Not Found: %s" % self.path)
+users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}}
 
-def run(server_class=http.server.HTTPServer, handler_class=SimpleAPIHandler):
-    server_address = ('', PORT)
-    httpd = server_class(server_address, handler_class)
-    httpd.serve_forever()
+@app.route("/")
+def home():
+    return "Welcome to the Flask API!"
+
+@app.route("/data")
+def get_data():
+    return jsonify(list(users.keys()))
+
+@app.route("/status")
+def get_status():
+    return "OK"
+
+@app.route("/users/<username>")
+def get_user(username):
+    if username in users:
+        return jsonify(users[username])
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+@app.route("/add_user", methods=["POST"])
+def add_user():
+    data = request.json
+    if "username" in data:
+        username = data["username"]
+        users[username] = data
+        return jsonify({"message": "User added successfully", "user": data})
+    else:
+        return jsonify({"error": "Invalid request"}), 400
 
 if __name__ == "__main__":
-    run()
+    app.run()

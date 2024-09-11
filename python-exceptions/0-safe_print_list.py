@@ -1,7 +1,7 @@
-#!/usr/bin/python3
+#!/user/bin/python3
 def safe_print_list(my_list=[], x=0):
     """
-    Prints x elements of a list and returns the real number of elements printed.
+    Prints x elements of a list.
 
     Args:
         my_list (list): The list to print elements from.
@@ -10,13 +10,12 @@ def safe_print_list(my_list=[], x=0):
     Returns:
         int: The real number of elements printed.
     """
-    count = 0
+    printed = 0
     try:
         for i in range(x):
             print(my_list[i], end='')
-            count += 1
+            printed += 1
         print()
-        return count
     except IndexError:
         print()
-        return count
+    return printed

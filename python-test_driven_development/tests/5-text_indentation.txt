@@ -1,0 +1,33 @@
+"""
+test cases for text_indentation function
+>>> text_indentation = __import__("5-text_indentation").text_indentation
+
+testing with integer value
+>>> text_indentation(120)
+Traceback (most recent call last):
+...
+TypeError: text must be a string
+
+testing with no parameter passed to function
+>>> text_indentation()
+Traceback (most recent call last):
+...
+TypeError: text_indentation() missing 1 required positional argument: 'text'
+
+testing with strings that contain , and .
+>>> text_indentation("i love dogs. i also love cats")
+i love dogs.
+<BLANKLINE>
+ i also love cats
+
+testing strings without . ? :
+>>> text_indentation("i love dogs")
+i love dogs
+
+>>> text_indentation("...")
+.
+<BLANKLINE>
+.
+<BLANKLINE>
+.
+<BLANKLINE>

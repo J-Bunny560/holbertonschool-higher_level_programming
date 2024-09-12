@@ -1,0 +1,76 @@
+Overview
+
+This module contains a function add_integer that adds two integers.
+
+Function Documentation
+
+add_integer(a, b=98)
+Description
+
+Adds two integers.
+
+Parameters
+
+a (int or float): The first integer to add.
+b (int or float, optional): The second integer to add. Defaults to 98.
+Returns
+
+int: The sum of a and b.
+Raises
+
+TypeError: If a or b is not an integer or float.
+Examples
+
+add_integer(1, 2) returns 3
+add_integer(100, -2) returns 98
+add_integer(2) returns 100
+add_integer(100.3, -2) returns 98
+
+def add_integer(a, b=98):
+    """
+    Adds two integers.
+
+    Args:
+        a (int or float): The first integer to add.
+        b (int or float, optional): The second integer to add. Defaults to 98.
+
+    Returns:
+        int: The sum of a and b.
+
+    Raises:
+        TypeError: If a or b is not an integer or float.
+
+    Examples:
+        >>> add_integer(1, 2)
+        3
+        >>> add_integer(100, -2)
+        98
+        >>> add_integer(2)
+        100
+        >>> add_integer(100.3, -2)
+        98
+    """
+    if type(a) not in [int, float]:
+        raise TypeError("a must be an integer")
+    if type(b) not in [int, float]:
+        raise TypeError("b must be an integer")
+    return int(a) + int(b)
+
+Usage
+
+To use this function, simply call it with two integer arguments, like this:
+
+result = add_integer(1, 2)
+print(result)  # prints 3
+
+You can also call it with a single argument, in which case the second argument will default to 98:
+
+result = add_integer(2)
+print(result)  # prints 100 
+
+Note that if you pass non-integer arguments, the function will raise a TypeError:
+
+try:
+    result = add_integer(1, "hello")
+except TypeError as e:
+    print(e)  # prints "b must be an integer"

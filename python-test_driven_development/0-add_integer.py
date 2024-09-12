@@ -17,6 +17,13 @@ def add_integer(a, b=98):
         raise TypeError("a must be an integer")
     if not isinstance(b, (int, float)):
         raise TypeError("b must be an integer")
+    
+    # Check for float overflow
+    if isinstance(a, float) and a > 2**31 - 1 or a < -2**31:
+        raise OverflowError("Float value is too large")
+    if isinstance(b, float) and b > 2**31 - 1 or b < -2**31:
+        raise OverflowError("Float value is too large")
+    
     a = int(a)
     b = int(b)
     return a + b

@@ -14,7 +14,7 @@ def home():
 def get_users():
     if not users:
         return jsonify([])
-    return jsonify(list(users.values()))
+    return jsonify(list(users.keys()))
 
 @app.route("/status")
 def get_status():
@@ -37,7 +37,7 @@ def add_user():
     if username in users:
         return jsonify({"error": "Username already exists"}), 400
     users[username] = data
-    return jsonify({"message": "User added successfully", "user": data}), 201
+    return jsonify({"message": "User added", "user": data}), 201
 
 if __name__ == "__main__":
     app.run()

@@ -4,12 +4,14 @@ import requests
 import csv
 
 def fetch_and_print_posts():
-    """Fetches posts from JSONPlaceholder and prints the status code and titles of the posts."""
-    response = requests.get("https://jsonplaceholder.typicode.com/posts")
-    print(f"Status code: {response.status_code}")
-    data = response.json()
-    for post in data:
-        print(post['title'])
+    """Fetches all posts from JSONPlaceholder and prints the status code and titles of the posts."""
+    url = "https://jsonplaceholder.typicode.com/posts"
+    response = requests.get(url)
+    print(f"Status Code: {response.status_code}")
+    if response.status_code == 200:
+        data = response.json()
+        for post in data:
+            print(post['title'])
 
 
 def fetch_and_save_posts():

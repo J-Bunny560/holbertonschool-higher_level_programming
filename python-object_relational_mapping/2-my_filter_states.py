@@ -1,15 +1,56 @@
 #!/usr/bin/python3
-"""Displays all values in the states table of the database hbtn_0e_0_usa
-whose name matches that supplied as argument.
-Usage: ./2-my_filter_states.py <mysql username> \<mysql password> \
-<database name> \<state name searched>"""
-import sys
+""" A script that utilizes MySQLdb package to list states in a database."""
 import MySQLdb
 
+def get_states(username, password, database, state_name):
+    """
+    Retrieves and displays all values in the states table of hbtn_0e_0_usa 
+    where name matches the given state name.
+
+    Args:
+        username (str): MySQL username
+        password (str): MySQL password
+        database (str): Database name
+        state_name (str): State name to search for
+
+    Returns:
+        None
+    """
+
+    # Establish a connection to the MySQL server
+    conn = MySQLdb.connect(
+        host='localhost',
+        port=3306,
+        user=username,
+        passwd=password,
+        db=database
+    )
+
+    # Create a cursor object to execute SQL queries
+    cur = conn.cursor()
+
+    # Create the SQL query with the user input
+    query = """
+        SELECT *
+        FROM states
+        WHERE name = %s
+        ORDER BY id ASC
+    """
+
+    # Execute the SQL query with the state name as a parameter
+    cur.execute(query, (state_name,))
+
+    # Fetch all the rows from the query result
+    rows = cur.fetchall()
+
+    # Display the results
+    for row in rows:
+        print(row)
+
+    # Close the cursor and connection
+    cur.close()
+    conn.close()
+
 if __name__ == "__main__":
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
-    c = db.cursor()
-    c.execute("SELECT * \
-                FROM `states` \
-                WHERE BINARY `name` = '{}'".format(sys.argv[4]))
-    [print(state) for state in c.fetchall()]
+    # Example usage:
+    get_states('username', 'password', 'hbtn_0e_0_usa', 'California')

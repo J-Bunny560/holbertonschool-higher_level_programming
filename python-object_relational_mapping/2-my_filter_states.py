@@ -1,34 +1,44 @@
 #!/usr/bin/python3
-import MySQLdb
-import sys
+"""
+search_states.py
+This script connects to a MySQL database and retrieves all states
+that match a specified name from the states table.
+"""
 
-if __name__ == "__main__":
-    # Get arguments from command line
+import sys
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+# Define the main function
+def main():
+    """
+    Main function that executes the database query to find states by name.
+    It takes command line arguments for database connection and state name.
+    """
     mysql_username = sys.argv[1]
     mysql_password = sys.argv[2]
     database_name = sys.argv[3]
     state_name = sys.argv[4]
 
-    # Connect to the MySQL database
-    db = MySQLdb.connect(host="localhost", port=3306, user=mysql_username,
-                        passwd=mysql_password, db=database_name)
+    # Create the database connection string
+    connection_string = f"mysql+mysqldb://{mysql_username}:{mysql_password}@localhost/{database_name}"
+    
+    # Create an engine and session
+    engine = create_engine(connection_string)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-    # Create a cursor object
-    cursor = db.cursor()
-
-    # Prepare the SQL query using format
-    query = "SELECT * FROM states WHERE name = '{}' ORDER BY id ASC".format(state_name)
-
-    # Execute the query
-    cursor.execute(query)
-
-    # Fetch all the results
-    results = cursor.fetchall()
+    # Query the states table
+    states = session.execute(
+        f"SELECT * FROM states WHERE name = '{state_name}' ORDER BY id ASC"
+    ).fetchall()
 
     # Display the results
-    for row in results:
-        print(row)
+    for state in states:
+        print(state)
 
-    # Close the cursor and database connection
-    cursor.close()
-    db.close()
+    # Close the session
+    session.close()
+
+if __name__ == "__main__":
+    main()
